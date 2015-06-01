@@ -1,12 +1,11 @@
 <h1>Welcome to MMORPS</h1>
-
-<%= current_result unless current_result.nil? %>
+<%= session[:current_result] if session[:current_result] %>
 
 <ul>
-  <li>Player Score: <%= player_score.to_s %></li>
-  <li>Computer Score: <%= computer_score.to_s %></li>
+  <li>Player Score: <%= session[:player_score].to_s %></li>
+  <li>Computer Score: <%= session[:computer_score].to_s %></li>
 </ul>
-<% if winner.nil? %>
+<% if session[:winner].nil? %>
 <%="<form action='/' method='post'>
   <input type='radio' name='rps' value='r'> Rock
   <input type='radio' name='rps' value='p'> Paper
@@ -15,7 +14,7 @@
 </form>" %>
 <% end %>
 
-<% if winner == true %>
+<% if session[:winner] == true %>
 <%="<form action='/reset' method='post'>
   <input type='submit' value='Play again'>
 </form>"%>

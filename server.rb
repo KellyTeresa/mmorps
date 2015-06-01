@@ -1,4 +1,5 @@
 require "sinatra"
+require "pry"
 
 
 use Rack::Session::Cookie, {
@@ -29,7 +30,7 @@ def tie
   result_text = "Tie! Try again."
 end
 
-def check_setup
+def check_if_game_is_setup
   if session[:player_score].nil?
     session[:player_score] = 0
   end
@@ -38,7 +39,7 @@ def check_setup
   end
 end
 
-def check_win
+def check_if_winner
   if session[:player_score] == 3
     session[:winner] = true
     session[:current_result] = "Player wins!"
@@ -49,23 +50,15 @@ def check_win
 end
 
 get '/' do
-  check_setup
-
-  check_win
-
-  erb :index,
-  locals: { player_score: session[:player_score],
-          computer_score: session[:computer_score],
-          current_result: session[:current_result],
-          winner: session[:winner]}
+  check_if_game_is_setup
+  check_if_winner
+  erb :index
 end
 
 post '/' do
   computer_choice = ['r','p','s'].sample
   player_choice = params[:rps]
-
   session[:current_result] = calculate_winner(computer_choice, player_choice)
-
   redirect '/'
 end
 
