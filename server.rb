@@ -10,8 +10,10 @@ def generate_hmac(data, secret)
   OpenSSL::HMAC.hexdigest(OpenSSL::Digest::SHA1.new, secret, data)
 end
 
-
-
 get '/' do
   erb :index
+end
+
+post '/' do
+  redirect '/'
 end
